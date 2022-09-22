@@ -3,39 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class aiController : MonoBehaviour
+public class AiController : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public Transform[] waypoints;
-    private int waypointIndex;
+    public int movespeed;
+    [SerializeField] public int Health;
+    public float Leeftijd = 0;
+    public List<GameObject> enemychecker = new List<GameObject> { };
+    private float startTime;
+    public Collision collision;
 
     // Start is called before the first frame update
     void Start()
     {
-        patroling();
+        startTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    private void patroling()
-    {
-        agent.SetDestination(waypoints[waypointIndex].position);
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        walking();
+        Leeftijd = Time.time - startTime;
+        if (Health <= 0)
         {
-            nextWaypoint();
-            Move(6);
+            EnemyDead();
         }
     }
-    private void Move(float speed)
+    private void EnemyDead()
     {
-        agent.speed = speed;
+        transform.position = new Vector3(500, 0, 500);
+        Destroy(gameObject, 0.5f);
     }
-    void nextWaypoint()
+    private void OnCollisionEnter(Collision collision)
     {
-        waypointIndex = (waypointIndex + 1) % waypoints.Length;
-        agent.SetDestination(waypoints[waypointIndex].position);
+        if (collision.transform.tag == "waypoint")
+        {
+            transform.rotation = collision.transform.rotation;
+        }
+
+        if (collision.transform.tag == "destroyer")
+        {
+            Destroy(gameObject);
+        }
     }
+    private void walking() =>  transform.position += transform.forward * Time.deltaTime *movespeed;
+    
 }

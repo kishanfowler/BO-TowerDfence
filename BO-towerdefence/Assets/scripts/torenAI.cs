@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class torenAI : MonoBehaviour
+public class TorenAI : MonoBehaviour
 {
-    public float fixedRotation = -90;
-    public Transform target;
+    public Transform target; 
+    public GameObject enemychecker;
+    public float tijdInterVal = 0.3f;
+    public int HandPower = 1;
+    public List<GameObject> enemies = new List<GameObject>();
+    public AiController aiController;
+    public List<GameObject> waveMachines = new List<GameObject>();
+    public bool valtAan = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,8 +21,7 @@ public class torenAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.eulerAngles = new Vector3(fixedRotation, transform.eulerAngles.y, transform.eulerAngles.z);
-        if (target.position.x <= 2 && target.position.z <= 2)
+        if (Vector3.Distance(transform.position, target.position) <= 6)
         {
             FaceTarget();
         }
@@ -24,8 +29,29 @@ public class torenAI : MonoBehaviour
 
     void FaceTarget()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, transform.rotation.y + 90, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1);
+        transform.LookAt(target);
+
+        
+        GameObject fastestEnemie = transform.GetComponent<EnemyChecker>().FastestEnemie;
+        if (fastestEnemie == null)
+        {
+            fastestEnemie = transform.GetComponent<EnemyChecker>().FastestEnemie;
+        }
+
+        if (transform.position.x - fastestEnemie.transform.position.x >= -8 && transform.position.x - fastestEnemie.transform.position.x <= 0 || transform.position.z - fastestEnemie.transform.position.z <= 8 && transform.position.z - fastestEnemie.transform.position.z >= 0)
+        {
+            if (valtAan == false && fastestEnemie != null)
+            {
+                valtAan = true;
+                StartCoroutine(Attack(tijdInterVal));
+            }
+        }
+        IEnumerator Attack(float TimeInterval)
+        {
+            yield return new WaitForSeconds(TimeInterval);
+            valtAan = false;
+            GameObject fastestEnemie = transform.GetComponent<EnemyChecker>().FastestEnemie;
+            fastestEnemie.GetComponent<AiController>().Health -= HandPower;
+        }
     }
 }
