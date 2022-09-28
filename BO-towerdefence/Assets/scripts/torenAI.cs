@@ -12,6 +12,7 @@ public class TorenAI : MonoBehaviour
     public AiController aiController;
     public List<GameObject> waveMachines = new List<GameObject>();
     public bool valtAan = false;
+    private Coroutine cr;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,37 +22,49 @@ public class TorenAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, target.position) <= 6)
+
+        if (target != null)
         {
-            FaceTarget();
+            if (Vector3.Distance(transform.position, target.position) <= 6)
+            {
+                FaceTarget();
+            }
         }
+       
+        
     }
 
     void FaceTarget()
     {
         transform.LookAt(target);
-
-        
-        GameObject fastestEnemie = transform.GetComponent<EnemyChecker>().FastestEnemie;
-        if (fastestEnemie == null)
-        {
-            fastestEnemie = transform.GetComponent<EnemyChecker>().FastestEnemie;
-        }
-
-        if (transform.position.x - fastestEnemie.transform.position.x >= -8 && transform.position.x - fastestEnemie.transform.position.x <= 0 || transform.position.z - fastestEnemie.transform.position.z <= 8 && transform.position.z - fastestEnemie.transform.position.z >= 0)
-        {
-            if (valtAan == false && fastestEnemie != null)
+        if (target != null) { 
+            if (transform.position.x - target.transform.position.x >= -8 && transform.position.x - target.transform.position.x <= 0 || transform.position.z - target.transform.position.z <= 8 && transform.position.z - target.transform.position.z >= 0)
             {
-                valtAan = true;
-                StartCoroutine(Attack(tijdInterVal));
+                if (valtAan == false && target != null)
+                {
+                    valtAan = true;
+                    cr =StartCoroutine(Attack(tijdInterVal));
+                }
+            }
+
+            if(target == null)
+            {
+                StopAllCoroutines();
             }
         }
         IEnumerator Attack(float TimeInterval)
         {
             yield return new WaitForSeconds(TimeInterval);
             valtAan = false;
-            GameObject fastestEnemie = transform.GetComponent<EnemyChecker>().FastestEnemie;
-            fastestEnemie.GetComponent<AiController>().Health -= HandPower;
+            if (target != null)
+            {
+                target.GetComponent<AiController>().Health -= HandPower;
+                if(target.GetComponent<AiController>().Health <= 0)
+                {
+                    StopCoroutine(cr);
+                }
+
+            }
         }
     }
 }

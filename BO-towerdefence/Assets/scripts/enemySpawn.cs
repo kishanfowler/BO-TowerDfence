@@ -6,10 +6,9 @@ public class EnemySpawn : MonoBehaviour
 {
     public EnemyChecker enemycheck;
     public int i = 0;
-    public int wavetussenTijd = 10;
+    public float wavetussenTijd;
     public int WaveNeeded = 1;
     public List<GameObject> WaveInhoud = new List<GameObject>();
-    public List<GameObject> ingespawned = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -25,30 +24,12 @@ public class EnemySpawn : MonoBehaviour
 
     IEnumerator spawn(float TimeInteraction)
     {
-        int tijd = 1;
-        if (WaveNeeded == 1)
-        {
-            i = 0;
-            WaveNeeded++;
-            tijd = wavetussenTijd;
-        }
-
+        float tijd = wavetussenTijd;
         yield return new WaitForSeconds(TimeInteraction);
-        if (WaveNeeded == 1)
+        if (WaveNeeded == 1 && i < WaveInhoud.Count)
         {
             GameObject Enemy = Instantiate(WaveInhoud[i], transform.position, transform.rotation);
             i += 1;
-        }
-
-        if (WaveNeeded == 2)
-        {
-            WaveNeeded = 1;
-            i = 0;
-            StartCoroutine(spawn(wavetussenTijd));
-        }
-
-        if (WaveNeeded == 1)
-        {
             StartCoroutine(spawn(tijd));
         }
     }

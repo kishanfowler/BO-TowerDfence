@@ -11,6 +11,7 @@ public class AiController : MonoBehaviour
     public List<GameObject> enemychecker = new List<GameObject> { };
     private float startTime;
     public Collision collision;
+    public int waarde;
 
     // Start is called before the first frame update
     void Start()
