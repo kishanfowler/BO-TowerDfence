@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class TorenAI : MonoBehaviour
 {
-    public Transform target; 
-    public GameObject enemychecker;
+    public Transform target;
     public float tijdInterVal = 0.3f;
-    public int HandPower = 1;
-    public List<GameObject> enemies = new List<GameObject>();
-    public AiController aiController;
-    public List<GameObject> waveMachines = new List<GameObject>();
+    public int Damage = 1;
     public bool valtAan = false;
     private Coroutine cr;
     // Start is called before the first frame update
@@ -23,13 +19,14 @@ public class TorenAI : MonoBehaviour
     void Update()
     {
 
-        if (target != null)
-        {
+        //if (target != null)
+        //{
+        Debug.Log(Vector3.Distance(transform.position, target.position));
             if (Vector3.Distance(transform.position, target.position) <= 6)
             {
                 FaceTarget();
             }
-        }
+        //}
        
         
     }
@@ -58,7 +55,7 @@ public class TorenAI : MonoBehaviour
             valtAan = false;
             if (target != null)
             {
-                target.GetComponent<AiController>().Health -= HandPower;
+                target.GetComponent<AiController>().Health -= Damage;
                 if(target.GetComponent<AiController>().Health <= 0)
                 {
                     StopCoroutine(cr);

@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class AiController : MonoBehaviour
 {
     public int movespeed;
-    [SerializeField] public int Health;
+    public int Health;
     public float Leeftijd = 0;
     public List<GameObject> enemychecker = new List<GameObject> { };
     private float startTime;
-    public Collision collision;
-    public int waarde;
+    public ShopSystem shopsystem;
+    private int playerHealth = 150;
+    public Slider PlayerSlider;
+    public Slider HpSlider;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +27,7 @@ public class AiController : MonoBehaviour
     void Update()
     {
         walking();
+        HpSlider.value = Health;
         Leeftijd = Time.time - startTime;
         if (Health <= 0)
         {
@@ -31,6 +36,7 @@ public class AiController : MonoBehaviour
     }
     private void EnemyDead()
     {
+        shopsystem.geld += Health;
         transform.position = new Vector3(500, 0, 500);
         Destroy(gameObject, 0.5f);
     }
@@ -44,6 +50,8 @@ public class AiController : MonoBehaviour
         if (collision.transform.tag == "destroyer")
         {
             Destroy(gameObject);
+            playerHealth -= Health;
+            PlayerSlider.value = playerHealth;
         }
     }
     private void walking() =>  transform.position += transform.forward * Time.deltaTime *movespeed;

@@ -6,10 +6,6 @@ using UnityEngine;
 public class EnemyChecker : MonoBehaviour
 {
     public List<GameObject> enemies = new List<GameObject>();
-    public int i = 0;
-    public GameObject FastestEnemie;
-    public AiController aiController;
-
     private TorenAI ai;
     // Start is called before the first frame update
     void Start()
@@ -43,12 +39,6 @@ public class EnemyChecker : MonoBehaviour
         {
             enemies.Remove(other.gameObject);
             other.gameObject.GetComponent<AiController>().enemychecker.Remove(gameObject);
-            /*
-            if (FastestEnemie == other.gameObject)
-            {
-                FastestEnemie = enemies[0];
-            }
-            */
         }
     }
 
