@@ -15,12 +15,16 @@ public class AiController : MonoBehaviour
     private int playerHealth = 150;
     public Slider PlayerSlider;
     public Slider HpSlider;
+    bool alive = true;
+    [SerializeField] private int waarde = 5;
 
 
     // Start is called before the first frame update
     void Start()
     {
         startTime = Time.time;
+        PlayerSlider = GameObject.Find("playerhealth").GetComponent<Slider>();
+        shopsystem = GameObject.Find("ShopButton").GetComponent<ShopSystem>();
     }
 
     // Update is called once per frame
@@ -29,16 +33,17 @@ public class AiController : MonoBehaviour
         walking();
         HpSlider.value = Health;
         Leeftijd = Time.time - startTime;
-        if (Health <= 0)
+        if (Health <= 0 && alive)
         {
             EnemyDead();
         }
     }
     private void EnemyDead()
     {
-        shopsystem.geld += Health;
+        alive = false;
         transform.position = new Vector3(500, 0, 500);
         Destroy(gameObject, 0.5f);
+        shopsystem.geld = shopsystem.geld + waarde;
     }
     private void OnCollisionEnter(Collision collision)
     {

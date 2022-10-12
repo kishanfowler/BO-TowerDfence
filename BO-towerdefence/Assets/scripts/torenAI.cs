@@ -9,6 +9,7 @@ public class TorenAI : MonoBehaviour
     public int Damage = 1;
     public bool valtAan = false;
     private Coroutine cr;
+    public int prijs = 15;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,17 +19,10 @@ public class TorenAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //if (target != null)
-        //{
-        Debug.Log(Vector3.Distance(transform.position, target.position));
-            if (Vector3.Distance(transform.position, target.position) <= 6)
-            {
-                FaceTarget();
-            }
-        //}
-       
-        
+        if (Vector3.Distance(transform.position, target.position) <= 6)
+        {
+            FaceTarget();
+        }
     }
 
     void FaceTarget()
