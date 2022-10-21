@@ -29,13 +29,11 @@ public class TorenAI : MonoBehaviour
     {
         transform.LookAt(target);
         if (target != null) { 
-            if (transform.position.x - target.transform.position.x >= -8 && transform.position.x - target.transform.position.x <= 0 || transform.position.z - target.transform.position.z <= 8 && transform.position.z - target.transform.position.z >= 0)
+           
+            if (valtAan == false && target != null)
             {
-                if (valtAan == false && target != null)
-                {
-                    valtAan = true;
-                    cr =StartCoroutine(Attack(tijdInterVal));
-                }
+                valtAan = true;
+                cr = StartCoroutine(Attack(tijdInterVal));
             }
 
             if(target == null)

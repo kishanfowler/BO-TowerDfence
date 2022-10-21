@@ -15,7 +15,7 @@ public class EnemyChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        ai.target = enemies[0].transform;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -27,7 +27,6 @@ public class EnemyChecker : MonoBehaviour
 
             Debug.Log("enemies" + enemies);
             ai.target = enemies[0].transform;
-            other.gameObject.GetComponent<AiController>().enemychecker.Add(gameObject);
         }
 
       
@@ -38,7 +37,6 @@ public class EnemyChecker : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             enemies.Remove(other.gameObject);
-            other.gameObject.GetComponent<AiController>().enemychecker.Remove(gameObject);
         }
     }
 

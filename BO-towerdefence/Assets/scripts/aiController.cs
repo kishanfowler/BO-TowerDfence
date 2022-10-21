@@ -9,7 +9,6 @@ public class AiController : MonoBehaviour
     public int movespeed;
     public int Health;
     public float Leeftijd = 0;
-    public List<GameObject> enemychecker = new List<GameObject> { };
     private float startTime;
     public ShopSystem shopsystem;
     private int playerHealth = 150;

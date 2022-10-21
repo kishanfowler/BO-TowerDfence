@@ -5,33 +5,46 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
     public EnemyChecker enemycheck;
-    public int starttijd;
+    public float starttijd;
     public float wavetussenTijd;
-    public List<GameObject> WaveInhoud = new List<GameObject>();
-
+    private Waves waves;
+    [SerializeField] int wave = 0;
+    public Waves[] Waveslist;
     // Start is called before the first frame update
     void Start()
     {
-       
+        wave = 0;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        spawn(wavetussenTijd);
-    }
-
-    void spawn(float tijd)
-    {
-        for (int i = 0; i < WaveInhoud.Count;)
+        starttijd -= Time.deltaTime;
+        if (starttijd <= 0)
         {
-            tijd -= Time.deltaTime;
-            if(tijd == 0)
+            wavetussenTijd -= Time.deltaTime;
+            if (wavetussenTijd <= 0 && wave < Waveslist.Length)
             {
-                GameObject Enemy = Instantiate(WaveInhoud[i], transform.position, transform.rotation);
-                i++;
+                waves = Waveslist[wave];
+                StartCoroutine(wavestart());
+                wave++;
+                starttijd = 5;
             }
-            
         }
     }
+        
+    IEnumerator wavestart()
+    {
+        for (int i = 0; i < waves.waveEnemies.Length; i++)
+        {
+            for (int e = 0; e <= waves.waveAmounts[i]; e++)
+            {
+                Instantiate(waves.waveEnemies[i], transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(1f);
+            }
+            Debug.Log("part done");
+        }
+        Debug.Log("wave done");
+    }
 }
+

@@ -8,11 +8,12 @@ TagManager:
   - waypoint
   - destroyer
   - meer
+  - toren
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - whatever
+  - 
   - Water
   - UI
   - 
