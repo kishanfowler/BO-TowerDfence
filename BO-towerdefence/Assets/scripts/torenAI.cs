@@ -19,7 +19,7 @@ public class TorenAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, target.position) <= 6)
+        if (target != null)
         {
             FaceTarget();
         }

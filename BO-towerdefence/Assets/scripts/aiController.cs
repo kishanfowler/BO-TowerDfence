@@ -10,9 +10,9 @@ public class AiController : MonoBehaviour
     public int Health;
     public float Leeftijd = 0;
     private float startTime;
-    public ShopSystem shopsystem;
+    private GeldScript shopsystem;
     private int playerHealth = 150;
-    public Slider PlayerSlider;
+    private Slider PlayerSlider;
     public Slider HpSlider;
     bool alive = true;
     [SerializeField] private int waarde = 5;
@@ -23,7 +23,7 @@ public class AiController : MonoBehaviour
     {
         startTime = Time.time;
         PlayerSlider = GameObject.Find("playerhealth").GetComponent<Slider>();
-        shopsystem = GameObject.Find("ShopButton").GetComponent<ShopSystem>();
+        shopsystem = GameObject.Find("geldText").GetComponent<GeldScript>();
     }
 
     // Update is called once per frame

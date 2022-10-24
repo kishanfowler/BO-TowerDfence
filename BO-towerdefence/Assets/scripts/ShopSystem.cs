@@ -14,30 +14,34 @@ public class ShopSystem : MonoBehaviour
     private GameObject tInstance;
     [SerializeField] private Camera MainCamera;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask2;
     private bool move = false;
-    [SerializeField] private TorenAI torenai;
+    private TorenAI torenai;
     private bool canbuy;
     public GameObject selectUI;
     [SerializeField] private GameObject range;
 
     void Start()
     {
+        torenai = toren.transform.GetChild(1).GetComponent<TorenAI>();
         range = toren.transform.GetChild(0).gameObject;
+        geld = GameObject.Find("geldText").GetComponent<GeldScript>().geld;
     }
 
     // Update is called once per frame
     void Update()
     {
-        geldUI.text = "geld:" + geld;
         Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask);
+        Ray ray2 = MainCamera.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit raycastHit2, float.MaxValue, layerMask2);
 
         if (raycastHit.transform.gameObject.layer == 0)
         {
             move = true;
         }
 
-        if (raycastHit.transform.CompareTag("toren"))
+        if (raycastHit2.transform.CompareTag("toren"))
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -70,6 +74,7 @@ public class ShopSystem : MonoBehaviour
             {
                 tInstance = Instantiate(toren, mousePos, toren.transform.rotation);
                 range.SetActive(true);
+                Debug.Log("komt bij de range");
             }
             
             if (tInstance != null)

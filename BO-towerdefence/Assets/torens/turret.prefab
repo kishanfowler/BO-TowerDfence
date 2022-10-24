@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 1954547354341040866}
   - component: {fileID: 1080411748646984941}
   - component: {fileID: 4443867495436818132}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: range
   m_TagString: toren
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1081490618761419635
 Transform:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 8101301180409390172}
   - component: {fileID: 7315553660134803057}
   - component: {fileID: 2557621210608787424}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube.001
   m_TagString: toren
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 4565914923306570142}
   - component: {fileID: 4565914923306569825}
   - component: {fileID: 4565914923306569824}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GameObject
   m_TagString: toren
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 8880262588422226303}
   - component: {fileID: 198253315036051425}
   - component: {fileID: 8630686603361659710}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: turret
   m_TagString: toren
   m_Icon: {fileID: 0}
