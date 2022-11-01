@@ -5,17 +5,15 @@ using UnityEngine.UI;
 
 public class ShopSystem : MonoBehaviour
 {
-    public int geld;
+    private int geld;
     public bool Ispressed;
     public GameObject toren;
     private GameObject geselecteerdetoren;
     private Vector3 mousePos;
-    private TMPro.TextMeshProUGUI geldUI;
     private GameObject tInstance;
     [SerializeField] private Camera MainCamera;
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private LayerMask layerMask2;
-    private bool move = false;
+    private bool move = true;
     private TorenAI torenai;
     private bool canbuy;
     public GameObject selectUI;
@@ -24,7 +22,7 @@ public class ShopSystem : MonoBehaviour
     void Start()
     {
         torenai = toren.transform.GetChild(1).GetComponent<TorenAI>();
-        range = toren.transform.GetChild(0).gameObject;
+        selectUI = GameObject.Find("selectUI");
         geld = GameObject.Find("geldText").GetComponent<GeldScript>().geld;
     }
 
@@ -33,16 +31,10 @@ public class ShopSystem : MonoBehaviour
     {
         Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask);
-        Ray ray2 = MainCamera.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out RaycastHit raycastHit2, float.MaxValue, layerMask2);
-
-        if (raycastHit.transform.gameObject.layer == 0)
+        
+        if (raycastHit.transform.CompareTag("toren"))
         {
-            move = true;
-        }
-
-        if (raycastHit2.transform.CompareTag("toren"))
-        {
+            Debug.Log(raycastHit.transform.name);
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 selecteren(raycastHit.transform.gameObject);
@@ -50,13 +42,16 @@ public class ShopSystem : MonoBehaviour
             
         }
 
-        if (Physics.Raycast(ray, out raycastHit, float.MaxValue, layerMask) && move == true)
+        if (Physics.Raycast(ray, out raycastHit, float.MaxValue, layerMask) && move == true && tInstance != null)
         {
-            tInstance.transform.position = raycastHit.point;
+            if(raycastHit.transform.gameObject.layer == 0 || raycastHit.transform.gameObject.layer == 3)
+            {
+                tInstance.transform.position = raycastHit.point;
+            }
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                deselecteer();
                 tInstance = null;
-                verberg();
             }
         }
 
@@ -67,12 +62,12 @@ public class ShopSystem : MonoBehaviour
     {
         if (torenai.prijs <= geld)
         {
-            deselecteer();
             canbuy = true;
             geld -= torenai.prijs;
             if (canbuy)
             {
                 tInstance = Instantiate(toren, mousePos, toren.transform.rotation);
+                range = tInstance.transform.GetChild(0).gameObject;
                 range.SetActive(true);
                 Debug.Log("komt bij de range");
             }
